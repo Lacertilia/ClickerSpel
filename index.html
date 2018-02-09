@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Clicker</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
+	<style type="text/css">
+				
+		html{
+			font-size: 16px;
+		}
+
+		main{
+			width: 80%;
+			margin: 0 auto;
+		}
+
+		body{
+			font-family: 'Open Sans', sans-serif;
+			font-size: 62.5%;
+		}
+
+		h1, h2, h3, h4, h5{
+			font-family: 'Oswald', sans-serif;
+		}
+
+		p{
+			font-size: 2.2em;
+		}
+		nav li{
+			display: block;
+
+		}
+		.top {
+			border-bottom: 1px solid black;
+		}
+		.menu ul{
+			margin: 0px;
+			padding:0px;
+			list-style: none;
+		}
+		.menu li{
+			display:inline;
+			font-size:3em;
+
+		}
+		.menu a{
+			text-decoration: none;
+		}
+		.menu a:hover{
+			border-bottom: 2px solid magenta;
+		}
+		article{
+			height: 100vh;
+		}
+		#clickerbutton{
+			font-size: 4em;
+			width: 140px;
+			height: 140px;
+			border-radius: 100px;
+			background-color: lime;
+		}
+		#clickerbutton:active{
+			background-image:url('click.jpg');
+			width:119px;
+			height:119px;
+			font-size: 0px;
+		}
+		#clickerbutton:focus{
+			outline:0px;
+		}
+		</style>
+
+	
+
+</head>
+<body>
+	<main>
+		<section>
+			<article id="clicker">
+				<header>
+					<h1 id="headline">Clicker</h1>
+					<p>Posted at <time>2018-01-19</time></p>
+				</header>
+				<div id="game">
+				<button id="clickerbutton">Click here!</button>
+				</div>
+				<div id="score">
+					
+				</div>
+				<div id="powerUps">
+					<button id="lejon"></button>
+					<button id="zebra"></button>
+				</div>
+			</article>
+		</section>
+	</main>
+
+	<script>
+		
+		var button = document.getElementById("clickerbutton");
+		var lion = document.getElementById("lejon");
+		var zebra = document.getElementById("zebra");
+		var scoreDiv = document.getElementById("score");
+		var puDiv = document.getElementById("powerUps");
+		var scoreText = document.createElement("p");
+		var powerText = document.createElement("p");
+		var clickValue = 1;
+		var clicks = 0;
+		var lejonCost = 15;
+		var zebraCost = 60;
+		var zebraFunc = null;
+		var zebraTimer = 0;
+		var lejonAnt = 0;
+		var zebraAnt = 0;
+
+		lion.textContent = "Lion: " + lejonCost;
+		zebra.textContent = "Zebra: " + zebraCost;
+
+		scoreText.textContent = "Points: " + clicks;
+
+		button.addEventListener("click", function(){			
+			clicks += clickValue;
+			scoreText.textContent = "Points: " + clicks;
+		}, true);
+
+		lion.addEventListener("click", function(){
+
+			if(clicks>=lejonCost){
+				clicks -= lejonCost;
+				clickValue *= 1.1;
+				lejonCost *= 1.25;
+				lejonAnt++;
+				scoreText.textContent = "Points: " + clicks;
+				lion.textContent = "Lion: " + lejonCost;
+				powerText.textContent = "Du köpte ett lejon.";
+
+			}else{
+				powerText.textContent = "Du har inte råd.";
+			}
+
+		}, true);
+
+		zebra.addEventListener("click", function(){
+			
+			if(clicks>=zebraCost){
+				clicks -= zebraCost;
+				zebraTimer += 10;
+				zebraCost *= 1.25;
+				zebraAnt++;
+				zebra.textContent = "Zebra: " + zebraCost;
+				powerText.textContent = "Köpte Zebra.";
+				zebraFunc = setInterval(function(){
+					clicks += 10;
+					scoreText.textContent = "Points: " + clicks;
+					zebraTimer--;
+					if(zebraTimer == 0){
+						clearInterval(zebraFunc);
+					}
+				}, 1000);
+				scoreText.textContent = "Points: " + clicks;
+			}
+		}, true);
+
+		
+		
+		scoreDiv.appendChild(scoreText);
+
+
+	</script>
+</body>
+</html>
