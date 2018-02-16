@@ -55,20 +55,25 @@
 			height: 100vh;
 		}
 		#clickerbutton{
-			font-size: 4em;
 			width: 140px;
 			height: 140px;
 			border-radius: 100px;
-			background-color: lime;
+			background-image: url('nutty.jpg');
+
 		}
 		#clickerbutton:active{
-			background-image:url('click.jpg');
-			width:119px;
-			height:119px;
-			font-size: 0px;
+			width:137px;
+			height:137px;
 		}
 		#clickerbutton:focus{
 			outline:0px;
+		}
+		#headline{
+			font-size:6em;
+			padding-left:30%;
+		}
+		#extra, #nutMix, #bigNut{
+			display:none;
 		}
 		</style>
 
@@ -80,18 +85,25 @@
 		<section>
 			<article id="clicker">
 				<header>
-					<h1 id="headline">Clicker</h1>
-					<p>Posted at <time>2018-01-19</time></p>
+					<h1 id="headline">Jakten På Den Stora Nöten</h1>
 				</header>
 				<div id="game">
-				<button id="clickerbutton">Click here!</button>
+				<button id="clickerbutton"></button>
 				</div>
 				<div id="score">
 					
 				</div>
 				<div id="powerUps">
-					<button id="lejon"></button>
-					<button id="zebra"></button>
+					<button id="coop"></button>
+					<button id="extra"></button>
+					<button id="nutMix"></button>
+					<button id="bigNut"></button>
+				</div>
+				<div id="antal">
+					<p id="coopAntal"></p>
+					<p id="extraAntal"></p>
+					<p id="nutmixAntal"></p>
+					<p id="bignutAntal"></p>
 				</div>
 			</article>
 		</section>
@@ -99,42 +111,62 @@
 
 	<script>
 		
-		var button = document.getElementById("clickerbutton");
-		var lion = document.getElementById("lejon");
-		var zebra = document.getElementById("zebra");
+		var clickButton = document.getElementById("clickerbutton");
+		var coop = document.getElementById("coop");
+		var extra = document.getElementById("extra");
+		var nutmix = document.getElementById("nutMix");
+		var big = document.getElementById("bigNut");
 		var scoreDiv = document.getElementById("score");
 		var puDiv = document.getElementById("powerUps");
+
 		var scoreText = document.createElement("p");
 		var powerText = document.createElement("p");
 		var clickValue = 1;
 		var clicks = 0;
-		var lejonCost = 15;
-		var zebraCost = 60;
-		var zebraFunc = null;
-		var zebraTimer = 0;
-		var lejonAnt = 0;
-		var zebraAnt = 0;
+		var coopCost = 10;
+		var extraCost = 100;
+		var nutmixCost = 2000;
+		var bignutCost = 1000000000;
+		var extraFunc = null;
+		var coopAnt = 0;
+		var extraAnt = 0;
+		var nutmixAnt = 0;
+		var extraVal = 0;
 
-		lion.textContent = "Lion: " + lejonCost;
-		zebra.textContent = "Zebra: " + zebraCost;
+		coop.textContent = "Extrapris på coop: " + coopCost;
+		extra.textContent = "Extra Nötter: " + extraCost;
+		nutmix.textContent = "Nötmix: " + nutmixCost;
+		big.textContent = "Den Stora Nöten: " + bignutCost;
 
-		scoreText.textContent = "Points: " + clicks;
 
-		button.addEventListener("click", function(){			
+		scoreText.textContent = Math.floor(clicks) + " Nötter";
+
+		
+
+		clickButton.addEventListener("click", function(){			
 			clicks += clickValue;
-			scoreText.textContent = "Points: " + clicks;
+			scoreText.textContent = Math.floor(clicks) + " Nötter";
+			if(clicks>75){
+				extra.style.display = "inline";
+			}
+			if(clicks>1800){
+				nutmix.style.display = "inline";
+			}
+			if(clicks>10000000){
+				big.style.display = "inline";
+			}
 		}, true);
 
-		lion.addEventListener("click", function(){
+		coop.addEventListener("click", function(){
 
-			if(clicks>=lejonCost){
-				clicks -= lejonCost;
+			if(clicks>=coopCost){
+				clicks -= coopCost;
 				clickValue *= 1.1;
-				lejonCost *= 1.25;
-				lejonAnt++;
-				scoreText.textContent = "Points: " + clicks;
-				lion.textContent = "Lion: " + lejonCost;
-				powerText.textContent = "Du köpte ett lejon.";
+				coopCost *= 1.25;
+				coopAnt++;
+				scoreText.textContent = Math.floor(clicks) + " Nötter";
+				coop.textContent = "Extrapris på coop: " + coopCost;
+				powerText.textContent = "Du köpte extrapris på coop.";
 
 			}else{
 				powerText.textContent = "Du har inte råd.";
@@ -142,24 +174,22 @@
 
 		}, true);
 
-		zebra.addEventListener("click", function(){
+		extra.addEventListener("click", function(){
 			
-			if(clicks>=zebraCost){
-				clicks -= zebraCost;
-				zebraTimer += 10;
-				zebraCost *= 1.25;
-				zebraAnt++;
-				zebra.textContent = "Zebra: " + zebraCost;
-				powerText.textContent = "Köpte Zebra.";
-				zebraFunc = setInterval(function(){
-					clicks += 10;
-					scoreText.textContent = "Points: " + clicks;
-					zebraTimer--;
-					if(zebraTimer == 0){
-						clearInterval(zebraFunc);
-					}
+			if(clicks>=extraCost){
+				clicks -= extraCost;
+				extraCost *= 1.25;
+				extraAnt++;
+				extraVal = extraAnt * 5;
+				clearInterval(extraFunc	);
+				extra.textContent = "Extra Nötter: " + extraCost;
+				powerText.textContent = "Köpte Extra Nötter.";
+				extraFunc = setInterval(function(){
+					clicks += extraVal;
+					scoreText.textContent = Math.floor(clicks) + " Nötter";
+					
 				}, 1000);
-				scoreText.textContent = "Points: " + clicks;
+				scoreText.textContent = clicks + " Nötter";
 			}
 		}, true);
 
