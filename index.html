@@ -28,32 +28,11 @@
 		p{
 			font-size: 2.2em;
 		}
-		nav li{
-			display: block;
 
-		}
-		.top {
-			border-bottom: 1px solid black;
-		}
-		.menu ul{
-			margin: 0px;
-			padding:0px;
-			list-style: none;
-		}
-		.menu li{
-			display:inline;
-			font-size:3em;
-
-		}
-		.menu a{
-			text-decoration: none;
-		}
-		.menu a:hover{
-			border-bottom: 2px solid magenta;
-		}
 		article{
 			height: 100vh;
 		}
+		
 		#clickerbutton{
 			width: 140px;
 			height: 140px;
@@ -61,17 +40,21 @@
 			background-image: url('nutty.jpg');
 
 		}
+		
 		#clickerbutton:active{
 			width:137px;
 			height:137px;
 		}
+		
 		#clickerbutton:focus{
 			outline:0px;
 		}
+		
 		#headline{
 			font-size:6em;
 			padding-left:30%;
 		}
+		
 		#extra, #nutMix, #bigNut{
 			display:none;
 		}
@@ -93,6 +76,9 @@
 				<div id="score">
 					
 				</div>
+				<div id="power">
+					
+				</div>
 				<div id="powerUps">
 					<button id="coop"></button>
 					<button id="extra"></button>
@@ -103,7 +89,6 @@
 					<p id="coopAntal"></p>
 					<p id="extraAntal"></p>
 					<p id="nutmixAntal"></p>
-					<p id="bignutAntal"></p>
 				</div>
 			</article>
 		</section>
@@ -118,9 +103,12 @@
 		var big = document.getElementById("bigNut");
 		var scoreDiv = document.getElementById("score");
 		var puDiv = document.getElementById("powerUps");
-
+		var powerDiv = document.getElementById("power");
 		var scoreText = document.createElement("p");
 		var powerText = document.createElement("p");
+		var coopAntal = document.getElementById("coopAntal");
+		var extraAntal = document.getElementById("extraAntal");
+		var nutmixAntal = document.getElementById("nutmixAntal");
 		var clickValue = 1;
 		var clicks = 0;
 		var coopCost = 10;
@@ -133,9 +121,9 @@
 		var nutmixAnt = 0;
 		var extraVal = 0;
 
-		coop.textContent = "Extrapris på coop: " + coopCost;
-		extra.textContent = "Extra Nötter: " + extraCost;
-		nutmix.textContent = "Nötmix: " + nutmixCost;
+		coop.textContent = "Extrapris på coop: " + Math.floor(coopCost);
+		extra.textContent = "Extra Nötter: " + Math.floor(extraCost);
+		nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
 		big.textContent = "Den Stora Nöten: " + bignutCost;
 
 
@@ -161,11 +149,11 @@
 
 			if(clicks>=coopCost){
 				clicks -= coopCost;
-				clickValue *= 1.1;
-				coopCost *= 1.25;
+				clickValue *= 1.2;
+				coopCost *= 1.4;
 				coopAnt++;
 				scoreText.textContent = Math.floor(clicks) + " Nötter";
-				coop.textContent = "Extrapris på coop: " + coopCost;
+				coop.textContent = "Extrapris på coop: " + Math.floor(coopCost);
 				powerText.textContent = "Du köpte extrapris på coop.";
 
 			}else{
@@ -178,24 +166,39 @@
 			
 			if(clicks>=extraCost){
 				clicks -= extraCost;
-				extraCost *= 1.25;
+				extraCost *= 1.5;
 				extraAnt++;
 				extraVal = extraAnt * 5;
-				clearInterval(extraFunc	);
-				extra.textContent = "Extra Nötter: " + extraCost;
+				clearInterval(extraFunc);
+				extra.textContent = "Extra Nötter: " + Math.floor(extraCost);
 				powerText.textContent = "Köpte Extra Nötter.";
 				extraFunc = setInterval(function(){
 					clicks += extraVal;
 					scoreText.textContent = Math.floor(clicks) + " Nötter";
 					
 				}, 1000);
-				scoreText.textContent = clicks + " Nötter";
+				scoreText.textContent = Math.floor(clicks) + " Nötter";
+			}else{
+				powerText.textContent = "Du har inte råd."
 			}
 		}, true);
 
+		nutmix.addEventListener("click", function(){
+			if(clicks>=nutmixCost){
+				clicks-=nutmixCost;
+				nutmixCost *=1.6;
+				clickValue *= 2;
+				nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
+				powerText. = "Du köpte en Nötmix."
+			}else{
+				powerText.textContent = "Du har inte råd."
+			}
+		});
 		
 		
 		scoreDiv.appendChild(scoreText);
+		powerDiv.appendChild(powerText);
+
 
 
 	</script>
