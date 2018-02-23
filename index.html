@@ -19,6 +19,7 @@
 		body{
 			font-family: 'Open Sans', sans-serif;
 			font-size: 62.5%;
+			overflow:hidden;
 		}
 
 		h1, h2, h3, h4, h5{
@@ -34,30 +35,65 @@
 		}
 		
 		#clickerbutton{
-			width: 140px;
-			height: 140px;
+			width: 143px;
+			height: 143px;
 			border-radius: 100px;
 			background-image: url('nutty.jpg');
+			margin-left:45%;
 
-		}
-		
-		#clickerbutton:active{
-			width:137px;
-			height:137px;
 		}
 		
 		#clickerbutton:focus{
 			outline:0px;
+		}
+		#score{
+			text-align:center;
+			font-size:1.5em;
+			font-weight:bold;
+		}
+
+		#power{
+			text-align:center;
+			font-weight:bold;
 		}
 		
 		#headline{
 			font-size:6em;
 			padding-left:30%;
 		}
+		#coop{
+			margin-left:5%;
+			margin-right:2.5%;
+			width:18.75%;
+			border-radius:6px;
+			height:45px;
+		}
 		
 		#extra, #nutMix, #bigNut{
 			display:none;
+			margin-left:2.5%;
+			margin-right:2.5%;
+			width:18.75%;
+			border-radius:6px;
+			height:45px;
 		}
+		#coop:focus, #extra:focus, #nutMix:focus, #bigNut:focus, #winButton:focus{
+			outline: 0px;
+		}
+		#winButton{
+			margin-left: 37.5%;
+			width: 25%;
+			height:45px;
+			font-weight:bold;
+			font-size: 2em;
+			border-radius:6px;
+			display:none;
+
+		}
+		#antal{
+			font-size: 0.75em;
+		}
+
 		</style>
 
 	
@@ -86,9 +122,10 @@
 					<button id="bigNut"></button>
 				</div>
 				<div id="antal">
-					<p id="coopAntal"></p>
-					<p id="extraAntal"></p>
-					<p id="nutmixAntal"></p>
+					<p id="coopAntal"></p><p id="extraAntal"></p><p id="nutmixAntal"></p>
+				</div>
+				<div id="winDiv">
+					<button id="winButton">Klicka för att Vinna!</button>
 				</div>
 			</article>
 		</section>
@@ -109,6 +146,7 @@
 		var coopAntal = document.getElementById("coopAntal");
 		var extraAntal = document.getElementById("extraAntal");
 		var nutmixAntal = document.getElementById("nutmixAntal");
+		var winButton = document.getElementById("winButton");
 		var clickValue = 1;
 		var clicks = 0;
 		var coopCost = 10;
@@ -121,7 +159,7 @@
 		var nutmixAnt = 0;
 		var extraVal = 0;
 
-		coop.textContent = "Extrapris på coop: " + Math.floor(coopCost);
+		coop.textContent = "Extrapris coop: " + Math.floor(coopCost);
 		extra.textContent = "Extra Nötter: " + Math.floor(extraCost);
 		nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
 		big.textContent = "Den Stora Nöten: " + bignutCost;
@@ -152,9 +190,10 @@
 				clickValue *= 1.2;
 				coopCost *= 1.4;
 				coopAnt++;
+				coopAntal.textContent = "Coop extrapris: " + coopAnt + "st";
 				scoreText.textContent = Math.floor(clicks) + " Nötter";
-				coop.textContent = "Extrapris på coop: " + Math.floor(coopCost);
-				powerText.textContent = "Du köpte extrapris på coop.";
+				coop.textContent = "Coop extrapris: " + Math.floor(coopCost);
+				powerText.textContent = "Du köpte coop extrapris.";
 
 			}else{
 				powerText.textContent = "Du har inte råd.";
@@ -168,6 +207,7 @@
 				clicks -= extraCost;
 				extraCost *= 1.5;
 				extraAnt++;
+				extraAntal.textContent = "Extra Nötter: " + extraAnt + "st";
 				extraVal = extraAnt * 5;
 				clearInterval(extraFunc);
 				extra.textContent = "Extra Nötter: " + Math.floor(extraCost);
@@ -188,11 +228,25 @@
 				clicks-=nutmixCost;
 				nutmixCost *=1.6;
 				clickValue *= 2;
+				nutmixAnt++;
+				nutmixAntal.textContent = "Nötmix: " + nutmixAnt + "st";
+				scoreText.textContent = Math.floor(clicks) + " Nötter"
 				nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
-				powerText. = "Du köpte en Nötmix."
+				powerText.textContent = "Du köpte en Nötmix."
 			}else{
 				powerText.textContent = "Du har inte råd."
 			}
+		});
+
+		big.addEventListener("click", function(){
+			if(clicks>=bignutCost){
+				clicks-=bignutCost;
+				winButton.style.display = "inline";
+			}
+		});
+
+		winButton.addEventListener("click", function(){
+			window.open("win.html", "_self");
 		});
 		
 		
