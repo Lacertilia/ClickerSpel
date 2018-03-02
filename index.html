@@ -38,7 +38,7 @@
 			width: 143px;
 			height: 143px;
 			border-radius: 100px;
-			background-image: url('nutty.jpg');
+			background-image: url('nut.jpg');
 			margin-left:45%;
 
 		}
@@ -59,7 +59,7 @@
 		
 		#headline{
 			font-size:6em;
-			padding-left:30%;
+			text-align: center;
 		}
 		#coop{
 			margin-left:5%;
@@ -79,7 +79,22 @@
 		}
 		#coop:focus, #extra:focus, #nutMix:focus, #bigNut:focus, #winButton:focus{
 			outline: 0px;
+		
 		}
+		#antal{
+			height: 50px;
+			size: fixed;
+		}
+		#antal li{
+			width:18.75%;
+			font-size: 2.2em;
+			text-decoration: none;
+			display:none;
+			margin-left:5%;
+			float:left;
+			text-align: center;
+		}
+
 		#winButton{
 			margin-left: 37.5%;
 			width: 25%;
@@ -122,7 +137,7 @@
 					<button id="bigNut"></button>
 				</div>
 				<div id="antal">
-					<p id="coopAntal"></p><p id="extraAntal"></p><p id="nutmixAntal"></p>
+					<li id="coopAntal"></li><li id="extraAntal"></li><li id="nutmixAntal"></li>
 				</div>
 				<div id="winDiv">
 					<button id="winButton">Klicka för att Vinna!</button>
@@ -164,6 +179,10 @@
 		nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
 		big.textContent = "Den Stora Nöten: " + bignutCost;
 
+		coopAntal.textContent = "Coop Extrapris: " + coopAnt;
+		extraAntal.textContent = "Extra Nötter: " + extraAnt;
+		nutmixAntal.textContent = "Nötmixer: " + nutmixAnt;
+
 
 		scoreText.textContent = Math.floor(clicks) + " Nötter";
 
@@ -181,6 +200,7 @@
 			if(clicks>10000000){
 				big.style.display = "inline";
 			}
+
 		}, true);
 
 		coop.addEventListener("click", function(){
@@ -194,6 +214,7 @@
 				scoreText.textContent = Math.floor(clicks) + " Nötter";
 				coop.textContent = "Coop extrapris: " + Math.floor(coopCost);
 				powerText.textContent = "Du köpte coop extrapris.";
+				coopAntal.style.display = "inline";
 
 			}else{
 				powerText.textContent = "Du har inte råd.";
@@ -212,9 +233,20 @@
 				clearInterval(extraFunc);
 				extra.textContent = "Extra Nötter: " + Math.floor(extraCost);
 				powerText.textContent = "Köpte Extra Nötter.";
+				extraAntal.style.display = "inline";
 				extraFunc = setInterval(function(){
 					clicks += extraVal;
 					scoreText.textContent = Math.floor(clicks) + " Nötter";
+
+					if(clicks>75){
+						extra.style.display = "inline";
+					}
+					if(clicks>1800){
+						nutmix.style.display = "inline";
+					}
+					if(clicks>10000000){
+						big.style.display = "inline";
+					}
 					
 				}, 1000);
 				scoreText.textContent = Math.floor(clicks) + " Nötter";
@@ -230,6 +262,7 @@
 				clickValue *= 2;
 				nutmixAnt++;
 				nutmixAntal.textContent = "Nötmix: " + nutmixAnt + "st";
+				nutmixAntal.style.display = "inline";
 				scoreText.textContent = Math.floor(clicks) + " Nötter"
 				nutmix.textContent = "Nötmix: " + Math.floor(nutmixCost);
 				powerText.textContent = "Du köpte en Nötmix."
