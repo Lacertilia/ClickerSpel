@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Clicker</title>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans%7cOswald" rel="stylesheet">
 	<style type="text/css">
 				
 		html{
@@ -137,7 +137,9 @@
 					<button id="bigNut"></button>
 				</div>
 				<div id="antal">
-					<li id="coopAntal"></li><li id="extraAntal"></li><li id="nutmixAntal"></li>
+					<ul>
+						<li id="coopAntal"></li><li id="extraAntal"></li><li id="nutmixAntal"></li>
+					</ul>
 				</div>
 				<div id="winDiv">
 					<button id="winButton">Klicka för att Vinna!</button>
@@ -185,6 +187,7 @@
 
 
 		scoreText.textContent = Math.floor(clicks) + " Nötter";
+		powerText.textContent = "Börja klicka!";
 
 		
 
@@ -274,6 +277,7 @@
 		big.addEventListener("click", function(){
 			if(clicks>=bignutCost){
 				clicks-=bignutCost;
+				powerText.textContent = "Du Köpte Den Stora Nöten!";
 				winButton.style.display = "inline";
 			}
 		});
